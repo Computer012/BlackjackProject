@@ -1,5 +1,7 @@
 package com.sangmin.blackjack.Construction;
 
+import java.util.List;
+
 public class Rule {
 	
 	public int getScore(List<Card> cards) {

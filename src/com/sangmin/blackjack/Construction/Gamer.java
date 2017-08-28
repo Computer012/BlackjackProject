@@ -1,5 +1,7 @@
 package com.sangmin.blackjack.Construction;
 
+import java.util.List;
+
 public class Gamer {
 	private List<Card> cards;
 	
