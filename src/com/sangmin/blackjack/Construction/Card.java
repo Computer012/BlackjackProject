@@ -3,7 +3,7 @@ package com.sangmin.blackjack.Construction;
 public class Card {
 	private String pattern;
 	private String denomination;
-	
+	 
 	public Card(String pattern, String denomination) {
 		this.pattern = pattern;
 		this.denomination = denomination;

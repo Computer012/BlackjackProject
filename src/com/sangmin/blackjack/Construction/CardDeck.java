@@ -40,7 +40,7 @@ public class CardDeck {
 		}
 		return String.valueOf(number);
 	}
-
+ 
 	public Card getCard() {
 		return null;
 	}
