@@ -30,13 +30,13 @@ public class Card {
 		}
 		return number;
 	}
+
+	public int getPoint() {
+		return this.point;
+	}
 	
 	@Override
 	public String toString() {
 		return "Card{" + "pattern='" + pattern + ", denomination='" + denomination + '}';
-	}
-
-	public int getPoint() {
-		return this.point;
 	}
 }
