@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Gamer implements Player{
 	private List<Card> cards;
+	private boolean turn;
 	
 	public Gamer() {
 		cards = new ArrayList<>();
@@ -32,5 +33,24 @@ public class Gamer implements Player{
 	@Override
 	public List<Card> openCards() {
 		return this.cards;
+	}
+
+	@Override
+	public void turnOff() {
+		this.setTurn(false);
+	}
+
+	@Override
+	public void turnOn() {
+		this.setTurn(true);
+	}
+
+	@Override
+	public boolean isTurn() {
+		return this.turn;
+	}
+	
+	private void setTurn(boolean turn) {
+		this.turn = turn;
 	}
 }

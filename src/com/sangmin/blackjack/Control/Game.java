@@ -47,7 +47,7 @@ public class Game {
 				player.receiveCard(card);
 				player.turnOn();
 			}else {
-				player.turnOff;
+				player.turnOff();
 			}
 		}
 		
