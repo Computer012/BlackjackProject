@@ -3,7 +3,7 @@ package com.sangmin.blackjack.Construction;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Dealer {
+public class Dealer implements Player{
 	private List<Card> cards; 
 	
 	private static final int CAN_RECEIVE_POINT = 16;
@@ -12,6 +12,7 @@ public class Dealer {
 		cards = new ArrayList<>();
 	}
 	
+	@Override
 	public void receiveCard(Card card) {
 		if(this.isReceiveCard()) {
 			this.cards.add(card);
@@ -34,7 +35,8 @@ public class Dealer {
 		return sum;
 	}
 
-	private void showCards() {
+	@Override
+	public void showCards() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("현재 보유 카드 목록 \n");
 		
@@ -46,9 +48,9 @@ public class Dealer {
 		System.out.println(sb.toString());
 	}
 	
+	@Override
 	public List<Card> openCards() {
-		return null;
+		return this.cards;
 	}
-	
 	
 }
