@@ -1,57 +1,33 @@
 package com.sangmin.blackjack.Construction;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class CardDeck {
-	private List<Card> cards;
+	private Stack<Card> cards;
 	//¢¼¢¾¡ß¢À
-	private static final String[] PATTERNS = {"¢¼", "¢¾", "¡ß", "¢À"};
-	private static final int CARD_COUNT = 13;
 	
 	public CardDeck() {
 		cards = this.generateCards();
+		Collections.shuffle(this.cards);
 	}
 	
-	private List<Card> generateCards() {
-		List<Card> cards = new LinkedList<>();
+	private Stack<Card> generateCards() {
+		Stack<Card> cards = new Stack<>();
 		
-		for(String pattern : PATTERNS) {
-			for(int i=1; i<=CARD_COUNT; i++) {
-				Card card = new Card(pattern, i);
-				cards.add(card);
+		for(Card.Pattern pattern : Card.Pattern.values()) {
+			for(Card.Denomination denomination : Card.Denomination.values()) {
+				Card card = new Card(pattern, denomination);
+				cards.push(card);
 			}
 		}
 		return cards;
 	}
+	
+	public Stack<Card> getCards() {
+		return cards;
+	}
 
 	public Card draw() {
-		Card selectedCard = getRandomCard();
-		cards.remove(selectedCard);
-		
-		return selectedCard;
+		return this.cards.pop();
 	}
-	
-	private Card getRandomCard() {
-		int size = cards.size();
-		int select = (int)(Math.random()*size);
-		
-		return cards.get(select);
-	}
-	
-//	public Card getCard() {
-//		return null;
-//	}
-
-//	@Override
-//	public String toString() {
-//		StringBuilder sb = new StringBuilder();
-//		
-//		for(Card card : cards){
-//			sb.append(card.toString());
-//			sb.append("\n");
-//		}
-//		
-//		return sb.toString();
-//	}	
 }

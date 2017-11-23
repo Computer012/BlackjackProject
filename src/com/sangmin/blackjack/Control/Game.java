@@ -13,6 +13,7 @@ import com.sangmin.blackjack.Construction.Rule;
 
 public class Game {
 	private static final int INIT_RECEIVE_CARD_COUNT = 2;
+	private static final String STOP_RECEIVE_CARD = "0";
 	
 	public void play() {
 		System.out.println("===== Blackjack =====");
@@ -20,7 +21,7 @@ public class Game {
 		Rule rule = new Rule();
 		CardDeck cardDeck = new CardDeck();
 		
-		List<Player> players = Arrays.asList(new Gamer("User1"), new Dealer());
+		List<Player> players = Arrays.asList(new Gamer("User1"), new Dealer()); 
 		List<Player> initAfterPlayers = initPhase(cardDeck, players);
 		List<Player> playingAfterPlayers = playingPhase(sc, cardDeck, initAfterPlayers);
 		
@@ -35,13 +36,15 @@ public class Game {
 			
 			if(isAllPlayerTurnOff(cardReceivedPlayers)) {
 				break;
-			}			
-		}	
+			}
+		}
 		return cardReceivedPlayers;
 	}
 	
 	private List<Player> receiveCardAllPlayers(Scanner sc, CardDeck cardDeck, List<Player> players) {
 		for(Player player : players) {
+			System.out.println(player.getName() + "님 차례입니다.");
+			
 			if(isReceiveCard(sc)) {
 				Card card = cardDeck.draw();
 				player.receiveCard(card);
@@ -70,10 +73,11 @@ public class Game {
 
 	
 	private List<Player> initPhase(CardDeck cardDeck, List<Player> players) {
-		System.out.println("처음 2장의 카드를 각자 뽑겠습니다.");
+		System.out.println("처음 2장의 카드를 각자 뽑겠습니다.\n");
 		
 		for(int i=0; i<INIT_RECEIVE_CARD_COUNT; i++) {
 			for(Player player : players) {
+				System.out.println(player.getName() + "님 차례입니다.");
 				Card card = cardDeck.draw ();
 				player.receiveCard(card);
 			}

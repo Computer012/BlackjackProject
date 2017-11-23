@@ -6,7 +6,9 @@ import java.util.List;
 public class Dealer implements Player{
 	private List<Card> cards; 
     private boolean turn;
-	private static final int CAN_RECEIVE_POINT = 16;
+
+    private static final int CAN_RECEIVE_POINT = 16;
+	private static final String NAME = "µô·¯";
 	
 	public Dealer() {
 		cards = new ArrayList<>();
@@ -70,6 +72,11 @@ public class Dealer implements Player{
 
 	private void setTurn(boolean turn) {
 		this.turn = turn;
+	}
+
+	@Override
+	public String getName() {
+		return NAME;
 	}
 	
 }
