@@ -1,6 +1,8 @@
 package com.sangmin.blackjack.Construction;
 
-public class Card {
+import java.io.Serializable;
+
+public class Card implements Serializable {
 	private Pattern pattern; // 문양
 	private Denomination denomination; // 숫자
 	
@@ -73,6 +75,6 @@ public class Card {
 	
 	@Override
 	public String toString() {
-		return "Card { " + "pattern='" + pattern + "', denomination='" + denomination + "' }";		
+		return pattern.toString() + denomination.toString();		
 	}
 }
