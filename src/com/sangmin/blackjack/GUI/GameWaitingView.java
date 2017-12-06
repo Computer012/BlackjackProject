@@ -1,6 +1,8 @@
 package com.sangmin.blackjack.GUI;
 
 import java.awt.*;
+import java.util.Stack;
+
 import javax.swing.*;
 
 public class GameWaitingView {
@@ -9,6 +11,8 @@ public class GameWaitingView {
 		new GameWaitingView();
 	}
 
+	private Stack<String> cards = new Stack<String>();
+	private DrawPanel panel = null;
 	public GameWaitingView() {
 		JFrame frame = new JFrame("Waiting Room");
 		frame.setLocation(100, 30);
@@ -16,30 +20,44 @@ public class GameWaitingView {
 		
 		Container contentPane = frame.getContentPane();
 		
-		DrawPanel panel = new DrawPanel();
+		panel = new DrawPanel();
 		contentPane.add(panel);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
 	}
-}
-
-class DrawPanel extends JPanel {
-	Image image = null;
-	Toolkit toolkit = getToolkit();
-
-	public DrawPanel() {
-		image = toolkit.getImage("C:\\Users\\User\\Desktop\\java project\\image\\Card\\Play_Table.png");
+	
+	public void addCard(String card) {
+		cards.add(card);
+		panel.repaint();
 	}
 	
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-		
-		if (image != null)
-			g.drawImage(image, 0, 0, 1200, 800, this);
+	// 그려주는 Panel
+	@SuppressWarnings("serial")
+	class DrawPanel extends JPanel {
+		Image backGroundImg = null, cardImg = null;
+		Toolkit toolkit = getToolkit();
 
-		System.out.println("Paint method 호출");
+		public DrawPanel() {
+			backGroundImg = toolkit.getImage("C:\\Users\\User\\Desktop\\java project\\image\\Card\\Play_Table.png");
+		}
+		
+		@Override
+		public void paint(Graphics g) {
+			super.paint(g);
+			
+			if (backGroundImg != null)
+				g.drawImage(backGroundImg, 0, 0, 1200, 800, this);
+
+			if (!cards.isEmpty()) {
+				int i = 0;
+				for (String card : cards) {
+					cardImg = toolkit.getImage("C:\\Users\\User\\Desktop\\java project\\image\\Card\\" + card + ".png");
+					g.drawImage(cardImg, 500 + (200)*i++, 500, 180, 250, this);
+				}
+			}
+			System.out.println("Paint method 호출");
+		}
 	}
 }
