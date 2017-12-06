@@ -7,6 +7,8 @@ import java.sql.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 
+import com.sangmin.blackjack.Control.ClientBackground;
+
 public class LoginView {
 
 	public static void main(String[] args) {
@@ -139,7 +141,7 @@ class LoginActionListener implements ActionListener {
 						System.out.println(rs.getString("id"));
 						System.out.println(rs.getString("pass"));
 					} while ((rs.next()));
-					new GameWaitingView();
+					new ClientBackground(idArea.getText());
 					frame.dispose();
 				} else {
 					label.setText("아이디 또는 비밀번호를 잘못 입력하셨습니다.");
