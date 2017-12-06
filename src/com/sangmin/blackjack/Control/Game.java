@@ -21,7 +21,7 @@ public class Game {
 		Rule rule = new Rule();
 		CardDeck cardDeck = new CardDeck();
 		
-		List<Player> players = Arrays.asList(new Gamer("User1"), new Dealer()); 
+		List<Player> players = Arrays.asList(new Gamer("User1"), new Dealer());
 		List<Player> initAfterPlayers = initPhase(cardDeck, players);
 		List<Player> playingAfterPlayers = playingPhase(sc, cardDeck, initAfterPlayers);
 		

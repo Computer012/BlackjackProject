@@ -3,7 +3,6 @@ package com.sangmin.blackjack.Construction;
 public class Card {
 	private Pattern pattern; // 문양
 	private Denomination denomination; // 숫자
-	private int point; // 
 	
 	public Card(Pattern pattern, Denomination denomination) {
 		this.pattern = pattern;

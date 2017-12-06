@@ -4,10 +4,7 @@ import java.util.List;
 
 public class Rule {
 	
-	public int getScore(List<Card> cards) {
-		return 0;
-	}
-	
+	// 점수를 비교해 승자가 누군지 반환하는 method
 	public Player getWinner(List<Player> players) {
 		Player highestPlayer = null;
 		int highestPoint = 0;
@@ -22,6 +19,7 @@ public class Rule {
 		return highestPlayer;
 	}
 	
+	// Card의 총 점수를 계산해 반환하는 method
 	private int getPointSum(List<Card> cards) {
 		int sum = 0;
 		
