@@ -19,7 +19,6 @@ public class Rule {
 				highestPoint = playerPointSum;
 			}
 		}
-		
 		return highestPlayer;
 	}
 	

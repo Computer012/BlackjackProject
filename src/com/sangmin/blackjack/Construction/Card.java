@@ -1,14 +1,13 @@
 package com.sangmin.blackjack.Construction;
 
 public class Card {
-	private Pattern pattern;
-	private Denomination denomination;
-	private int point;
+	private Pattern pattern; // 문양
+	private Denomination denomination; // 숫자
+	private int point; // 
 	
 	public Card(Pattern pattern, Denomination denomination) {
 		this.pattern = pattern;
 		this.denomination = denomination;
-//		this.point = this.numberToPoint(index);
 	}
 	
 	public Pattern getPattern() {
@@ -61,8 +60,7 @@ public class Card {
 		private String mark;
 		private int point;
 		
-		Denomination() {
-		}
+		Denomination() {}
 		
 		Denomination(String mark, int point) {
 			this.mark = mark;
@@ -71,7 +69,7 @@ public class Card {
 	}
 	
 	public int getPoint() {
-		return this.point;
+		return this.denomination.point;
 	}
 	
 	@Override

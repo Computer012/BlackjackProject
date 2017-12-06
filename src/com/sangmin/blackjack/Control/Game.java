@@ -29,8 +29,25 @@ public class Game {
 		System.out.println("승자는 " + winner.getName());
 	}
 	
+	// 처음 2장 카드 배분
+	private List<Player> initPhase(CardDeck cardDeck, List<Player> players) {
+		System.out.println("처음 2장의 카드를 각자 뽑겠습니다.\n");
+		
+		for(int i=0; i<INIT_RECEIVE_CARD_COUNT; i++) {
+			for(Player player : players) {
+				System.out.println(player.getName() + "님 차례입니다.");
+				Card card = cardDeck.draw ();
+				player.receiveCard(card);
+			}
+		}
+		
+		return players;
+	}
+	
+	// 게임 진행 (카드 받기)
 	private List<Player> playingPhase(Scanner sc, CardDeck cardDeck, List<Player> players) {
 		List<Player> cardReceivedPlayers;
+
 		while(true) {
 			cardReceivedPlayers = receiveCardAllPlayers(sc, cardDeck, players);
 			
@@ -41,6 +58,7 @@ public class Game {
 		return cardReceivedPlayers;
 	}
 	
+	// 의사에 따라 카드 배분
 	private List<Player> receiveCardAllPlayers(Scanner sc, CardDeck cardDeck, List<Player> players) {
 		for(Player player : players) {
 			System.out.println(player.getName() + "님 차례입니다.");
@@ -57,6 +75,7 @@ public class Game {
 		return players;
 	}
 	
+	// 모든 플레이어 턴 종료여부 판단
 	private boolean isAllPlayerTurnOff(List<Player> players) {
 		for(Player player : players) {
 			if(player.isTurn()) {
@@ -66,23 +85,10 @@ public class Game {
 		return true;
 	}	
 
+	// 턴 종료 여부 판단
 	private boolean isReceiveCard(Scanner sc) {
 		System.out.println("카드를 뽑겠습니까? (종료:0)");
 		return !STOP_RECEIVE_CARD.equals(sc.nextLine());
 	}
 
-	
-	private List<Player> initPhase(CardDeck cardDeck, List<Player> players) {
-		System.out.println("처음 2장의 카드를 각자 뽑겠습니다.\n");
-		
-		for(int i=0; i<INIT_RECEIVE_CARD_COUNT; i++) {
-			for(Player player : players) {
-				System.out.println(player.getName() + "님 차례입니다.");
-				Card card = cardDeck.draw ();
-				player.receiveCard(card);
-			}
-		}
-		
-		return players;
-	}
 }
