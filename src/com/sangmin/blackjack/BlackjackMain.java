@@ -1,11 +1,10 @@
 package com.sangmin.blackjack;
 
-import com.sangmin.blackjack.Control.Game;
+import com.sangmin.blackjack.GUI.LoginView;
 
 public class BlackjackMain {
 
 	public static void main(String[] args) {
-		Game game = new Game();
-		game.play();
+		LoginView login = new LoginView();
 	}
 }
