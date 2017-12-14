@@ -6,12 +6,12 @@ public class Rule {
 	public String getWinner(int playerScore, int dealerScore, String id) {
 		String winner = "";
 		
-		if ((playerScore > 21 && dealerScore > 21) || playerScore == dealerScore)
+		if ( (playerScore > 21 && dealerScore > 21) || playerScore == dealerScore)
 			winner = "¹«½ÂºÎ";
-		else if (playerScore > 21 || playerScore < dealerScore)
-			winner = "Dealer ½Â";
+		else if (playerScore > 21 || (playerScore <= 21 && dealerScore <= 21 && playerScore < dealerScore) )
+			winner = "Dealer";
 		else
-			winner = "Player ½Â";
+			winner = id;
 		
 		return winner;
 	}
