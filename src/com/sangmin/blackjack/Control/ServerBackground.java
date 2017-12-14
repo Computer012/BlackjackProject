@@ -7,7 +7,6 @@ import java.util.*;
 import com.sangmin.blackjack.Construction.Card;
 import com.sangmin.blackjack.Construction.CardDeck;
 import com.sangmin.blackjack.Construction.Dealer;
-import com.sangmin.blackjack.Construction.Rule;
 import com.sangmin.blackjack.Construction.SendingType;
 
 public class ServerBackground {
@@ -30,7 +29,7 @@ public class ServerBackground {
 
 			while (true) {
 				socket = server.accept();
-				PerClient client = new PerClient(socket, new CardDeck(), new Dealer(), new Rule());
+				PerClient client = new PerClient(socket, new CardDeck(), new Dealer());
 				Thread thread = new Thread(client);
 				thread.start();
 			}
@@ -67,10 +66,8 @@ public class ServerBackground {
 		}
 	}
 	
-	public void play(CardDeck _deck, Dealer _deal, Rule _rule) {
+	public void play(CardDeck _deck, Dealer _deal) {
 		System.out.println("===== Blackjack =====");
-		Scanner sc = new Scanner(System.in);
-		Rule rule = _rule;
 		CardDeck cardDeck = _deck;
 		Dealer dealer = _deal;
 
@@ -105,7 +102,7 @@ public class ServerBackground {
 				String id = it.next();
 				Card card = cardDeck.draw();
 				clientList.get(id).sendCard(card);
-				System.out.println("한장 보냅니당");
+//				System.out.println("초기화 - 한장 보냅니당");
 			}
 		}
 	}
@@ -114,7 +111,7 @@ public class ServerBackground {
 	private void playingPhase(String id, CardDeck cardDeck) {
 		Card card = cardDeck.draw();
 		clientList.get(id).sendCard(card);
-		System.out.println("한장 보냅니당");
+//		System.out.println("한장 보냅니당");
 	}
 
 
@@ -127,12 +124,10 @@ public class ServerBackground {
 		
 		private CardDeck cardDeck = null;
 		private Dealer dealer = null;
-		private Rule rule = null;
 		
-		public PerClient(Socket socket, CardDeck cardDeck, Dealer dealer, Rule rule) {
+		public PerClient(Socket socket, CardDeck cardDeck, Dealer dealer) {
 			this.cardDeck = cardDeck;
 			this.dealer = dealer;
-			this.rule = rule;
 			
 			try {
 				ois = new ObjectInputStream(socket.getInputStream());
@@ -158,24 +153,24 @@ public class ServerBackground {
 			}
 
 			if (getClientSize() == 1) {
-				System.out.println("Play!!");
-				play(cardDeck, dealer, rule);
+				System.out.println("Play!! 게임을 시작합니다.");
+				play(cardDeck, dealer);
 			}
 
 			while (connected) {
 				try {
 					SendingType type = (SendingType) ois.readObject();
-					System.out.println(type.isTurn() + "받았음~!");
+//					System.out.println(type.isTurn() + "받았음~!");
 					if (type.isTurn())
 						playingPhase(type.getId(), cardDeck);
 					else {
 						while (dealer.isReceiveCard()) {
 							initDealerAndSendToAll(cardDeck, dealer);
-							System.out.println(dealer.getPointSum() + "딜러 총점!!");
+//							System.out.println(dealer.getPointSum() + "딜러 총점!!");
 						}
 						waiting();
-						String winner = rule.getWinner(type.getTotalScore(), dealer.getPointSum(), id);
-						System.out.println(winner + " 입니다!!");
+						oos.writeObject(new Object());
+						// 좋은 방법은 아니지만, Exception 발생 유발을 위해 수행
 						setDisconnect();
 					}
 				} catch (IOException e) {
