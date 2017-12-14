@@ -7,8 +7,6 @@ import java.util.*;
 import com.sangmin.blackjack.Construction.Card;
 import com.sangmin.blackjack.Construction.CardDeck;
 import com.sangmin.blackjack.Construction.Dealer;
-import com.sangmin.blackjack.Construction.Gamer;
-import com.sangmin.blackjack.Construction.Player;
 import com.sangmin.blackjack.Construction.Rule;
 import com.sangmin.blackjack.Construction.SendingType;
 
@@ -32,7 +30,7 @@ public class ServerBackground {
 
 			while (true) {
 				socket = server.accept();
-				PerClient client = new PerClient(socket, new CardDeck());
+				PerClient client = new PerClient(socket, new CardDeck(), new Dealer(), new Rule());
 				Thread thread = new Thread(client);
 				thread.start();
 			}
@@ -61,33 +59,37 @@ public class ServerBackground {
 	private static final int INIT_RECEIVE_CARD_COUNT = 2;
 //	private static final String STOP_RECEIVE_CARD = "0";
 
-	public void play(CardDeck Deck) {
+	public void waiting() {
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void play(CardDeck _deck, Dealer _deal, Rule _rule) {
 		System.out.println("===== Blackjack =====");
 		Scanner sc = new Scanner(System.in);
-		Rule rule = new Rule();
-		CardDeck cardDeck = Deck;
-		Dealer dealer = new Dealer();
+		Rule rule = _rule;
+		CardDeck cardDeck = _deck;
+		Dealer dealer = _deal;
 
 		initDealerAndSendToAll(cardDeck, dealer);
 		initPhase(cardDeck);
-		// Player winner = rule.getWinner(playingAfterPlayers);
-		// System.out.println("승자는 " + winner.getName());
 	}
 
 	// Dealer의 Card를 모든 Player에게 전송하는 method
 	private void initDealerAndSendToAll(CardDeck cardDeck, Dealer dealer) {
-		Card card = null;
+		waiting();
 		
 		Set<String> keySet = clientList.keySet();
-		for (int i = 0; i < INIT_RECEIVE_CARD_COUNT; i++) {
-			card = cardDeck.draw();
-			dealer.receiveCard(card);
+		Card card = cardDeck.draw();
+		dealer.receiveCard(card);
 
-			Iterator<String> it = keySet.iterator();
-			while (it.hasNext()) {
-				String id = it.next();
-				clientList.get(id).sendCard(card);
-			}
+		Iterator<String> it = keySet.iterator();
+		while (it.hasNext()) {
+			String id = it.next();
+			clientList.get(id).sendCard(card);
 		}
 	}
 
@@ -96,12 +98,7 @@ public class ServerBackground {
 
 		Set<String> keySet = clientList.keySet();
 		for (int i = 0; i < INIT_RECEIVE_CARD_COUNT; i++) {
-			System.out.println("1.5초 기달..");
-			try {
-				Thread.sleep(1500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			waiting();
 
 			Iterator<String> it = keySet.iterator();
 			while (it.hasNext()) {
@@ -120,38 +117,6 @@ public class ServerBackground {
 		System.out.println("한장 보냅니당");
 	}
 
-//	// 의사에 따라 카드 배분
-//	private List<Player> receiveCardAllPlayers(Scanner sc, CardDeck cardDeck, List<Player> players) {
-//		for (Player player : players) {
-//			System.out.println(player.getName() + "님 차례입니다.");
-//
-//			if (isReceiveCard(sc)) {
-//				Card card = cardDeck.draw();
-//				player.receiveCard(card);
-//				player.turnOn();
-//			} else {
-//				player.turnOff();
-//			}
-//		}
-//
-//		return players;
-//	}
-//
-//	// 모든 플레이어 턴 종료여부 판단
-//	private boolean isAllPlayerTurnOff(List<Player> players) {
-//		for (Player player : players) {
-//			if (player.isTurn()) {
-//				return false;
-//			}
-//		}
-//		return true;
-//	}
-//
-//	// 턴 종료 여부 판단
-//	private boolean isReceiveCard(Scanner sc) {
-//		System.out.println("카드를 뽑겠습니까? (종료:0)");
-//		return !STOP_RECEIVE_CARD.equals(sc.nextLine());
-//	}
 
 	class PerClient implements Runnable {
 
@@ -161,9 +126,13 @@ public class ServerBackground {
 		private volatile boolean connected = false;
 		
 		private CardDeck cardDeck = null;
+		private Dealer dealer = null;
+		private Rule rule = null;
 		
-		public PerClient(Socket socket, CardDeck cardDeck) {
+		public PerClient(Socket socket, CardDeck cardDeck, Dealer dealer, Rule rule) {
 			this.cardDeck = cardDeck;
+			this.dealer = dealer;
+			this.rule = rule;
 			
 			try {
 				ois = new ObjectInputStream(socket.getInputStream());
@@ -190,7 +159,7 @@ public class ServerBackground {
 
 			if (getClientSize() == 1) {
 				System.out.println("Play!!");
-				play(cardDeck);
+				play(cardDeck, dealer, rule);
 			}
 
 			while (connected) {
@@ -200,7 +169,13 @@ public class ServerBackground {
 					if (type.isTurn())
 						playingPhase(type.getId(), cardDeck);
 					else {
-						System.out.println("누가 승자인지 판단과 결과");
+						while (dealer.isReceiveCard()) {
+							initDealerAndSendToAll(cardDeck, dealer);
+							System.out.println(dealer.getPointSum() + "딜러 총점!!");
+						}
+						waiting();
+						String winner = rule.getWinner(type.getTotalScore(), dealer.getPointSum(), id);
+						System.out.println(winner + " 입니다!!");
 						setDisconnect();
 					}
 				} catch (IOException e) {
@@ -218,7 +193,7 @@ public class ServerBackground {
 			try {
 				oos.writeObject(card);
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println("Error!");
 			}
 		}
 		

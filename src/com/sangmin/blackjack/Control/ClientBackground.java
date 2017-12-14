@@ -63,23 +63,9 @@ public class ClientBackground implements Player {
 	@Override
 	public void receiveCard(Card card) {
 		this.cards.add(card);
-		this.showCards();
 		waitingView.addCard(card.toString());
 	}
 
-	// Gamer가 현재 가지고 있는 카드 목록을 보여주는 method
-	@Override
-	public void showCards() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("현재 보유 카드 목록 \n");
-
-		for (Card card : cards) {
-			sb.append(card.toString());
-			sb.append("\n");
-		}
-		System.out.println(sb.toString());
-	}
-	
 	// Server측에 카드를 더 받을지 여부를 전송
 	public void cardRequest() {
 		try {
@@ -123,12 +109,6 @@ public class ClientBackground implements Player {
 	@Override
 	public String getName() {
 		return this.name;
-	}
-
-	// Gamer가 현재 가지고 있는 카드 목록을 반환하는 method
-	@Override
-	public List<Card> openCards() {
-		return this.cards;
 	}
 
 	public int getPlayerPointSum() {
