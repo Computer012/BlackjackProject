@@ -48,7 +48,6 @@ public class ClientBackground implements Player {
 
 	/**************** Game ****************/
 	// Game 관련 Data
-	private static final int INIT_RECEIVE_CARD_COUNT = 2;
 	private List<Card> dealerCards = new ArrayList<>();
 	private List<Card> cards = new ArrayList<>();
 	private boolean turn;
@@ -84,19 +83,18 @@ public class ClientBackground implements Player {
 	// Server측에 카드를 더 받을지 여부를 전송
 	public void cardRequest() {
 		try {
-			oos.writeObject(new SendingType(name, turn));
+			oos.writeObject(new SendingType(name, turn, getPlayerPointSum()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("까꿍 카드 리퀘스트~");
 	}
-	
 	
 	
 	// turn을 off로 요청하는 method
 	@Override
 	public void turnOff() {
 		this.setTurn(false);
+		System.out.println("Turn off" + turn);
 	}
 
 	// turn을 on으로 요청하는 method
@@ -133,10 +131,19 @@ public class ClientBackground implements Player {
 		return this.cards;
 	}
 
-	public int getPointSum() {
+	public int getPlayerPointSum() {
 		int sum = 0;
 		
 		for(Card card : cards) {
+			sum += card.getPoint();
+		}
+		return sum;
+	}
+	
+	public int getDealerPointSum() {
+		int sum = 0;
+		
+		for(Card card : dealerCards) {
 			sum += card.getPoint();
 		}
 		return sum;
@@ -173,12 +180,9 @@ public class ClientBackground implements Player {
 				oos.writeObject(name); // id 전송하기
 				setName(name);
 				
-				for (int i=0; i<INIT_RECEIVE_CARD_COUNT; i++) {
-					Card card = (Card) ois.readObject();
-					System.out.println("딜러카드 한장 !");
-					dealerCardReceive(card);
-				}
-			
+				Card card = (Card) ois.readObject();
+				System.out.println("딜러카드 한장 !");
+				dealerCardReceive(card);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e1) {
@@ -188,11 +192,18 @@ public class ClientBackground implements Player {
 			// 연결이 끊길 때 까지 반복
 			System.out.println("연결 끊길때 까지 반복 예정");
 			turnOn();
-			while (isConnected() && isTurn()) {
+			while (isConnected()) {
 				try {
 					Card card = (Card) ois.readObject();
-					System.out.println("플레이어 카드 한장 !");
-					receiveCard(card);
+					
+					if (isTurn()) {
+						System.out.println("플레이어 카드 한장 !");
+						receiveCard(card);
+					} else {
+						System.out.println("딜러카드 한장 !");
+						dealerCardReceive(card);
+					}
+					
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 					setConnectToDisconnect();
@@ -203,6 +214,7 @@ public class ClientBackground implements Player {
 					break;
 				}
 			}
+			
 			System.out.println("Connection closed...");
 		}
 	}
