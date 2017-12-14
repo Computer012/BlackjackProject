@@ -18,47 +18,22 @@ public class Dealer implements Player{
 	// Card 받는 method
 	@Override
 	public void receiveCard(Card card) {
-		if(this.isReceiveCard()) {
-			this.cards.add(card);
-			this.showCards();
-		}else {
-			System.out.println("카드의 총 합이 17 이상입니다."
-					+ "더 이상 카드를 받을 수 없습니다.");
-		}
+		this.cards.add(card);
 	}
 	
 	// Card를 받을 수 있는지 여부 판단하는 method
-	private boolean isReceiveCard() {
+	public boolean isReceiveCard() {
 		return getPointSum() <= CAN_RECEIVE_POINT;
 	}
 
 	// Dealer가 현재 가진 총 점수를 반환하는 method
-	private int getPointSum() {
+//	private
+	public int getPointSum() {
 		int sum = 0;
 		for(Card card : cards) {
 			sum += card.getPoint();
 		}
 		return sum;
-	}
-
-	// Gamer가 현재 가지고 있는 카드 목록을 보여주는 method
-	@Override
-	public void showCards() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("현재 보유 카드 목록 \n");
-		
-		for(Card card : cards) {
-			sb.append(card.toString());
-			sb.append("\n");
-		}
-		
-		System.out.println(sb.toString());
-	}
-	
-	// Gamer가 현재 가지고 있는 카드 목록을 반환하는 method
-	@Override
-	public List<Card> openCards() {
-		return this.cards;
 	}
 
 	// turn을 off로 요청하는 method
