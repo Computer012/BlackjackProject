@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import javax.swing.*;
 
+import com.sangmin.blackjack.Construction.Rule;
 import com.sangmin.blackjack.Control.ClientBackground;
 
 public class GameView {
@@ -27,7 +28,7 @@ public class GameView {
 		
 		JButton hitButton = new JButton(); // Ä«µå ´õ ¹Þ±â
 		hitButton.setFont(new Font("¸¼Àº °íµñ", 1, 30));
-		hitButton.setBounds(240, 355, 165, 110);
+		hitButton.setBounds(190, 355, 165, 110);
 		hitButton.setContentAreaFilled(false);
 		hitButton.setBorderPainted(false);
 		hitButton.addMouseListener(new MouseListener() {
@@ -68,7 +69,7 @@ public class GameView {
 		});
 		JButton stayButton = new JButton(); // Ä«µå ±×¸¸ ¹Þ±â
 		stayButton.setFont(new Font("¸¼Àº °íµñ", 1, 30));
-		stayButton.setBounds(240, 508, 165, 110);
+		stayButton.setBounds(190, 508, 165, 110);
 		stayButton.setContentAreaFilled(false);
 		stayButton.setBorderPainted(false);
 		stayButton.addMouseListener(new MouseListener() {
@@ -105,11 +106,91 @@ public class GameView {
 			}
 		});
 		
+		JButton exitButton = new JButton("Exit"); // ¸Þ´º·Î
+		exitButton.setFont(new Font("¸¼Àº °íµñ", 1, 30));
+		exitButton.setBounds(30, 28, 120, 50);
+//		exitButton.setContentAreaFilled(false);
+//		exitButton.setBorderPainted(false);
+		exitButton.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) { }
+			
+			@Override
+			public void mousePressed(MouseEvent e) { }
+			
+			@Override
+			public void mouseExited(MouseEvent e) { }
+			
+			@Override
+			public void mouseEntered(MouseEvent e) { }
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.dispose();
+			}
+		});
+		
+		JButton menuButton = new JButton("Menu"); // ¸Þ´º·Î
+		menuButton.setFont(new Font("¸¼Àº °íµñ", 1, 30));
+		menuButton.setBounds(30, 88, 120, 50);
+//		menuButton.setContentAreaFilled(false);
+//		menuButton.setBorderPainted(false);
+		menuButton.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) { }
+			
+			@Override
+			public void mousePressed(MouseEvent e) { }
+			
+			@Override
+			public void mouseExited(MouseEvent e) { }
+			
+			@Override
+			public void mouseEntered(MouseEvent e) { }
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.dispose();
+				//new MenuView();
+			}
+		});
+		
+		JButton againButton = new JButton("Again"); // ´Ù½Ã ÇÏ±â
+		againButton.setFont(new Font("¸¼Àº °íµñ", 1, 30));
+		againButton.setBounds(1000, 55, 165, 110);
+//		againButton.setContentAreaFilled(false);
+//		againButton.setBorderPainted(false);
+		againButton.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) { }
+			
+			@Override
+			public void mousePressed(MouseEvent e) { }
+			
+			@Override
+			public void mouseExited(MouseEvent e) { }
+			
+			@Override
+			public void mouseEntered(MouseEvent e) { }
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.dispose();
+				new ClientBackground(client.getName());
+			}
+		});
+		
 		panel = new DrawPanel();
 		panel.setLayout(null);
 		
 		panel.add(hitButton);
 		panel.add(stayButton);
+		panel.add(exitButton);
+		panel.add(menuButton);
+		panel.add(againButton);
 		contentPane.add(panel);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -137,6 +218,10 @@ public class GameView {
 		panel.setDealerScore(score);
 	}
 	
+	public void setWinner(String id) {
+		panel.setWinnerName(id);
+	}
+	
 	// ±×·ÁÁÖ´Â Panel
 	@SuppressWarnings("serial")
 	class DrawPanel extends JPanel {
@@ -152,6 +237,7 @@ public class GameView {
 		boolean background = false;
 		int playerScore = 0;
 		int dealerScore = 0;
+		String winner = "";
 		
 		public DrawPanel() {
 			toolkit = getToolkit();
@@ -159,6 +245,11 @@ public class GameView {
 			backCardImg = toolkit.getImage("C:\\Users\\User\\Desktop\\java project\\image\\Card\\Card_Back.png");
 			hitButtonImg = toolkit.getImage("C:\\Users\\User\\Desktop\\java project\\image\\layout\\HitBase.png");
 			stayButtonImg = toolkit.getImage("C:\\Users\\User\\Desktop\\java project\\image\\layout\\StayBase.png");
+		}
+		
+		public void setWinnerName(String winner) {
+			this.winner = winner;
+			repaint();
 		}
 		
 		public void setPlayerScore(int playerScore) {
@@ -201,18 +292,18 @@ public class GameView {
 			if (backGroundImg != null && !background)
 				g.drawImage(backGroundImg, 0, 0, 1200, 800, this);
 			if (hitButtonImg != null)
-				g.drawImage(hitButtonImg, 190, 340, 220, 150, this);
+				g.drawImage(hitButtonImg, 140, 340, 220, 150, this);
 			if (stayButtonImg != null)
-				g.drawImage(stayButtonImg, 180, 470, 240, 165, this);
+				g.drawImage(stayButtonImg, 130, 470, 240, 165, this);
 			
 			if (backCardImg != null)
-				g.drawImage(backCardImg, 550, 50, 210, 300, this);
+				g.drawImage(backCardImg, 500, 50, 210, 300, this);
 			if (!dealerCards.isEmpty()) {
 				int i = 0;
 				for(String dealerCard : dealerCards) {
 					dealerCardImg = toolkit.getImage("C:\\Users\\User\\Desktop\\java project\\image\\Card\\" + dealerCard + ".png");
 					if (dealerCardImg != null)
-						g.drawImage(dealerCardImg, 460+(90*i), 50, 210, 300, this);
+						g.drawImage(dealerCardImg, 410+(90*i), 50, 210, 300, this);
 					i++;
 				}
 			}
@@ -222,18 +313,30 @@ public class GameView {
 				for (String card : cards) {
 					cardImg = toolkit.getImage("C:\\Users\\User\\Desktop\\java project\\image\\Card\\" + card + ".png");
 					if (cardImg != null)
-						g.drawImage(cardImg, 450+(90)*i, 450, 210, 300, this);
+						g.drawImage(cardImg, 400+(90)*i, 450, 210, 300, this);
 					i++;
 				}
 			}
 			
 			g.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
-			g.drawString("Score : " + String.valueOf(dealerScore), 295, 175);
-		
+			g.drawString("Score : " + String.valueOf(dealerScore), 255, 165);
+			
 			g.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 30));
-			g.drawString("Score : " + String.valueOf(playerScore), 295, 745);
+			g.drawString("Score : " + String.valueOf(playerScore), 255, 745);
+			
+			
+			if (!winner.equals("")) {
+				g.setColor(Color.black);
+				g.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 100));				
+				if (winner.equals("Dealer"))
+					g.drawString("YOU LOSE!", 400, 435);
+				else if (winner.equals("¹«½ÂºÎ"))
+					g.drawString(" " + winner + "!!", 400, 435);
+				else
+					g.drawString(winner + ", WIN!", 400, 435);
+			}
 
-			System.out.println("Paint method È£Ãâ");
+//			System.out.println("Paint method È£Ãâ");
 		}
 	}
 }
