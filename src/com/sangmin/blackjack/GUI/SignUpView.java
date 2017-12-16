@@ -16,7 +16,7 @@ public class SignUpView {
 	
 	public SignUpView() {
 		JFrame frame = new JFrame();
-		frame.setLocation(1400, 150);
+		frame.setLocation(400, 150);
 		frame.setPreferredSize(new Dimension(450, 750));
 
 		Container contentPane = frame.getContentPane();

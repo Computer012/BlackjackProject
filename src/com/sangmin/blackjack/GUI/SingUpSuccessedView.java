@@ -17,7 +17,7 @@ public class SingUpSuccessedView {
 		this.preFrame = preFrame;
 		
 		JFrame frame = new JFrame();
-		frame.setLocation(1400, 150);
+		frame.setLocation(430, 300);
 		frame.setPreferredSize(new Dimension(400, 300));
 
 		Container contentPane = frame.getContentPane();
