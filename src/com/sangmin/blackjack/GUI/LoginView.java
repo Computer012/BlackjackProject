@@ -18,7 +18,7 @@ public class LoginView {
 	public LoginView() {
 
 		JFrame frame = new JFrame();
-		frame.setLocation(1400, 150);
+		frame.setLocation(400, 150);
 		frame.setPreferredSize(new Dimension(450, 750));
 
 		Container contentPane = frame.getContentPane();
@@ -140,13 +140,12 @@ class LoginActionListener implements ActionListener {
 					do {
 						System.out.println(rs.getString("id"));
 						System.out.println(rs.getString("pass"));
-					} while ((rs.next()));
-					new ClientBackground(idArea.getText());
+					} while ((rs.next())); 
+					new MenuView(idArea.getText());
 					frame.dispose();
 				} else {
 					label.setText("아이디 또는 비밀번호를 잘못 입력하셨습니다.");
 					passArea.setText("");
-					System.out.println("잘못 입력했어");
 				}
 			}
 		} catch (SQLException e1) {
