@@ -9,10 +9,6 @@ import javax.swing.*;
 
 public class RuleView {
 
-	public static void main(String[] args) {
-		new RuleView();
-	}
-	
 	public RuleView() {
 		JFrame frame = new JFrame("How to play game?");
 		frame.setLocation(100, 30);

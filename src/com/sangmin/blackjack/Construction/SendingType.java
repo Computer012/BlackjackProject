@@ -2,7 +2,7 @@ package com.sangmin.blackjack.Construction;
 
 import java.io.Serializable;
 
-public class SendingType implements Serializable {
+public class SendingType implements Serializable { // Á÷·ÄÈ­
 	private String id;
 	private boolean turn;
 	private int totalScore;

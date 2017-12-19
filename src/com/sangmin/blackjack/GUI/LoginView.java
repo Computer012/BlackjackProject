@@ -11,10 +11,6 @@ import com.sangmin.blackjack.Control.ClientBackground;
 
 public class LoginView {
 
-	public static void main(String[] args) {
-		new LoginView();
-	}
-
 	public LoginView() {
 
 		JFrame frame = new JFrame();

@@ -9,10 +9,6 @@ import javax.swing.*;
 public class SingUpSuccessedView {
 
 	JFrame preFrame = null;
-	public static void main(String[] args) {
-		new SingUpSuccessedView(new JFrame());		
-	}
-
 	public SingUpSuccessedView(JFrame preFrame) {
 		this.preFrame = preFrame;
 		

@@ -2,10 +2,11 @@ package com.sangmin.blackjack.Construction;
 
 import java.io.Serializable;
 
-public class Card implements Serializable {
+public class Card implements Serializable { // 직렬화
 	private Pattern pattern; // 문양
 	private Denomination denomination; // 숫자
 	
+	// 카드 생성자
 	public Card(Pattern pattern, Denomination denomination) {
 		this.pattern = pattern;
 		this.denomination = denomination;
@@ -27,6 +28,7 @@ public class Card implements Serializable {
 		this.denomination = denomination;
 	}
 	
+	// 패턴을 enum 타입으로 선언
 	public enum Pattern {
 		SPADE("spade"),
 		HEART("heart"),
@@ -43,6 +45,7 @@ public class Card implements Serializable {
 		
 	}
 
+	// 숫자, 알파벳을 enum 타입으로 선언
 	public enum Denomination {
 		ACE("A", 1),
 		TWO("2", 2),

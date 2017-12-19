@@ -6,16 +6,11 @@ import java.util.*;
 import java.util.List;
 
 import com.sangmin.blackjack.Construction.Card;
-import com.sangmin.blackjack.Construction.Player;
 import com.sangmin.blackjack.Construction.Rule;
 import com.sangmin.blackjack.Construction.SendingType;
 import com.sangmin.blackjack.GUI.GameView;
 
-public class ClientBackground implements Player {
-
-	public static void main(String[] args) {
-		new ClientBackground("computer");
-	}
+public class ClientBackground {
 
 	/**************** Client ****************/
 	// 통신 관련 Data
@@ -63,7 +58,6 @@ public class ClientBackground implements Player {
 	}
 	
 	// Card 받는 method
-	@Override
 	public void receiveCard(Card card) {
 		this.cards.add(card);
 		gameView.addCard(card.toString());
@@ -80,20 +74,17 @@ public class ClientBackground implements Player {
 	
 	
 	// turn을 off로 요청하는 method
-	@Override
 	public void turnOff() {
 		this.setTurn(false);
 //		System.out.println("Turn off" + turn);
 	}
 
 	// turn을 on으로 요청하는 method
-	@Override
 	public void turnOn() {
 		this.setTurn(true);
 	}
 
 	// turn의 값을 반환하는 method
- 	@Override
 	public boolean isTurn() {
 		return this.turn;
 	}
@@ -109,7 +100,6 @@ public class ClientBackground implements Player {
 	}
 	
 	// name을 반환하는 method
-	@Override
 	public String getName() {
 		return this.name;
 	}
@@ -173,7 +163,6 @@ public class ClientBackground implements Player {
 			}
 			
 			// 연결이 끊길 때 까지 반복
-//			System.out.println("연결 끊길때 까지 반복 예정");
 			turnOn();
 			while (isConnected()) {
 				try {

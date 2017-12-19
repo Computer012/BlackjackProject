@@ -16,10 +16,6 @@ public class GameView {
 	private Stack<String> cards = new Stack<String>();
 	private DrawPanel panel = null;
 	private ClientBackground client = null;
-
-	public static void main(String [] args) {
-		new GameView(new ClientBackground("0"));
-	}
 	
 	public GameView(ClientBackground client) {
 		this.client = client;
@@ -63,7 +59,6 @@ public class GameView {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// client측에서 turn을 true로 해서 server에다가 보내도록 요청하는 코드를 작성해야
 				if (client.getPlayerPointSum() >= 21) {
 					client.turnOff();
 					System.out.println("21이 넘었으므로 불가!");
@@ -104,7 +99,6 @@ public class GameView {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// client측에서 turn을 false로 해서 server에다가 보내도록 요청하는 코드를 작성해야
 				client.turnOff();
 				client.cardRequest();
 			}
@@ -424,7 +418,6 @@ public class GameView {
 				else
 					g.drawString(winner + ", WIN!", 400, 435);
 			}
-
 //			System.out.println("Paint method 호출");
 		}
 	}

@@ -10,10 +10,6 @@ import java.sql.*;
 
 public class SignUpView {
 
-	public static void main(String[] args) {
-		new SignUpView();
-	}
-	
 	public SignUpView() {
 		JFrame frame = new JFrame();
 		frame.setLocation(400, 150);

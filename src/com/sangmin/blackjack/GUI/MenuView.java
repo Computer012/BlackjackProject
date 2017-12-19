@@ -10,10 +10,6 @@ import com.sangmin.blackjack.Control.ClientBackground;
 
 public class MenuView {
 	
-	public static void main(String [] args) {
-		new MenuView("TestId");
-	}
-
 	public MenuView(String id) {
 		String _id = id;
 		

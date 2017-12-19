@@ -56,7 +56,6 @@ public class ServerBackground {
 	/**************** Game ****************/
 	// Game ฐüทร Data
 	private static final int INIT_RECEIVE_CARD_COUNT = 2;
-//	private static final String STOP_RECEIVE_CARD = "0";
 
 	public void waiting() {
 		try {
